@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import parser
+import writer.html
 
 
 if __name__ == '__main__':
@@ -8,4 +9,5 @@ if __name__ == '__main__':
         blocks = parser.cut_blocks(fo)
         parser.analyse_blocks(blocks)
 
-    print(blocks)
+    with open("/tmp/out.html", "w") as fo:
+        writer.html.write(fo, blocks)

@@ -20,6 +20,15 @@ class Block(object):
         self.firstLineNum = firstLineNum
         self.type = BlockType.unknown
 
+    def is_text(self):
+        return self.type == BlockType.text
+
+    def is_header(self):
+        return self.type == BlockType.header
+
+    def is_quote(self):
+        return self.type == BlockType.quote
+
     def __repr__(self):
         return "<Block type=%s>" % self.type
 
@@ -108,6 +117,11 @@ def guess_block_type(block):
         return BlockType.quote
 
 
+def analyse_text(block):
+    lines = [line.strip() for line in block.lines]
+    block.text = " ".join(lines)
+
+
 def analyse_header(block):
     assert(block.type == BlockType.header)
 
@@ -141,7 +155,9 @@ def analyse_blocks(blocks):
         if block.type == BlockType.unknown:
             type = guess_block_type(block)
             block.type = type
-            if type == BlockType.header:
+            if type == BlockType.text:
+                analyse_text(block)
+            elif type == BlockType.header:
                 analyse_header(block)
 
 
