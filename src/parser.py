@@ -1,7 +1,6 @@
 #!/bin/env python
 
 import enum
-import re
 
 class BlockType(enum.Enum):
     unknown = 1
@@ -159,13 +158,3 @@ def analyse_blocks(blocks):
                 analyse_text(block)
             elif type == BlockType.header:
                 analyse_header(block)
-
-
-
-
-if __name__ == '__main__':
-    with open("/home/florian/repos/rfcconverter/rfc6265.txt") as fo:
-        blocks = cut_blocks(fo)
-        analyse_blocks(blocks)
-
-    print(blocks)
